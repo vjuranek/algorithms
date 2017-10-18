@@ -8,17 +8,17 @@ func restoreHeap(arr []int, begin int, end int) []int {
 	i := arr[begin-1]
 	var j int
 	for k := begin; k <= end/2; {
-		j = 2 * k
-		if (j < end) && (arr[j-1] < arr[j]) {
+		j = 2 * k // right child (2(k-1)+2 == 2k)
+		if (j < end) && (arr[j-1] < arr[j]) { // compare left (2(k-1)+1 == 2k-1) and right child
 			j++
 		}
-		if (i >= arr[j-1]) {
+		if i >= arr[j-1] { //compare parent and bigger one of its children
 			break
-		} else {
+		} else { //switch (original) parent and bigger one of its children
 			arr[k-1] = arr[j-1]
 			k = j
+			arr[k-1] = i
 		}
-		arr[k-1] = i
 	}
 	return arr
 }
