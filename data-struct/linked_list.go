@@ -16,7 +16,7 @@ type List struct {
 	length int
 }
 
-func add(l *List, val int) {
+func (l *List) add(val int) {
 	node := Node{value: val}
 	if l.head == nil {
 		l.head = &node
@@ -28,7 +28,7 @@ func add(l *List, val int) {
 	l.length++
 }
 
-func get(l *List, i int) (int, error) {
+func (l *List) get(i int) (int, error) {
 	if i >= l.length {
 		return 0, errors.New("To big index value")
 	}
@@ -39,7 +39,7 @@ func get(l *List, i int) (int, error) {
 	return node.value, nil
 }
 
-func remove(l *List, i int) error {
+func (l *List) remove(i int) error {
 	if i >= l.length {
 		return errors.New("To big index value")
 	}
@@ -63,15 +63,15 @@ func remove(l *List, i int) error {
 }
 
 func main() {
-	var l List
-	add(&l, 10)
-	add(&l, 20)
-	add(&l, 30)
-	add(&l, 40)
-	add(&l, 50)
-	remove(&l, 3)
-	val, _ :=  get(&l, 2)
+	l := List{}
+	l.add(10)
+	l.add(20)
+	l.add(30)
+	l.add(40)
+	l.add(50)
+	l.remove(3)
+	val, _ :=  l.get(2)
 	fmt.Println("3 element value is ", val)
-	val, _ =  get(&l, 3)
+	val, _ =  l.get(3)
 	fmt.Println("3 element value is ", val)
 }
