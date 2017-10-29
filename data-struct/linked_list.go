@@ -5,8 +5,8 @@ import (
 	"errors"
 )
 
-type Node struct {
-	value int
+type Node struct { //TODO some packaging
+	value int //TODO some generalization, template, generic type?
 	next  *Node
 }
 
