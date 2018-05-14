@@ -44,5 +44,22 @@
            split (split-at half v)
            v1 (merge-sort (first split))
            v2 (merge-sort (second split))]
-      ;(do-merge-cond (into [] v1) (into [] v2))
+      (do-merge (into [] v1) (into [] v2)))))
+
+(defn merge-sort-cond [v]
+  (if (<= (count v) 1)
+    v
+    (let [ half (int (/(count v) 2))
+           split (split-at half v)
+           v1 (merge-sort (first split))
+           v2 (merge-sort (second split))]
+      (do-merge-cond (into [] v1) (into [] v2)))))
+
+(defn merge-sort-desctruct [v]
+  (if (<= (count v) 1)
+    v
+    (let [ half (int (/(count v) 2))
+           split (split-at half v)
+           v1 (merge-sort (first split))
+           v2 (merge-sort (second split))]
       (do-merge-destruct (into [] v1) (into [] v2) []))))
