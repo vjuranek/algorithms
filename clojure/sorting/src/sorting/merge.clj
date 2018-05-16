@@ -37,29 +37,21 @@
         (< v1 w1) (recur vn w (conj m v1))
         :else (recur v wn (conj m w1)))))
 
-(defn merge-sort [v]
+(defn merge-sort-gen [v, merge-fc, args]
   (if (<= (count v) 1)
     v
     (let [ half (int (/(count v) 2))
            split (split-at half v)
-           v1 (merge-sort (first split))
-           v2 (merge-sort (second split))]
-      (do-merge (into [] v1) (into [] v2)))))
+           v1 (merge-sort-gen (first split) merge-fc args)
+           v2 (merge-sort-gen (second split) merge-fc args)]
+      (apply merge-fc (into [] v1) (into [] v2) args))))
+
+(defn merge-sort [v]
+  (merge-sort-gen v do-merge nil))
 
 (defn merge-sort-cond [v]
-  (if (<= (count v) 1)
-    v
-    (let [ half (int (/(count v) 2))
-           split (split-at half v)
-           v1 (merge-sort (first split))
-           v2 (merge-sort (second split))]
-      (do-merge-cond (into [] v1) (into [] v2)))))
+  (merge-sort-gen v do-merge-cond nil))
 
 (defn merge-sort-desctruct [v]
-  (if (<= (count v) 1)
-    v
-    (let [ half (int (/(count v) 2))
-           split (split-at half v)
-           v1 (merge-sort (first split))
-           v2 (merge-sort (second split))]
-      (do-merge-destruct (into [] v1) (into [] v2) []))))
+  (merge-sort-gen v do-merge-destruct '([])))
+
