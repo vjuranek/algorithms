@@ -6,14 +6,14 @@ import (
 
 func CreateTree() (*Node) {
 	root := NewNode(5)
-	n1 := NewNode(4)
+	n1 := NewNode(3)
 	n2 := NewNode(7)
 	root.left = n1
 	root.right = n2
 
 	n1.left = NewNode(1)
-	n1.right = NewNode(3)
-	n2.left = NewNode(8)
+	n1.right = NewNode(4)
+	n2.right = NewNode(8)
 
 	return root
 }

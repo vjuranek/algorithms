@@ -30,11 +30,7 @@ func Max(node *Node) *Node {
 	for node.right != nil {
 		node = node.right
 	}
-	if node.left != nil {
-		return node.left
-	} else {
-		return node
-	}
+	return node
 }
 
 func PrintPostOrder(tree *Node) (err error) {
