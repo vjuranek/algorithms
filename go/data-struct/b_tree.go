@@ -6,9 +6,10 @@ import (
 )
 
 type Node struct {
-	value int
-	left  *Node
-	right *Node
+	value  int
+	parent *Node
+	left   *Node
+	right  *Node
 }
 
 type BTree struct {
@@ -16,7 +17,7 @@ type BTree struct {
 }
 
 func NewNode(value int) *Node {
-	return &Node{value, nil, nil}
+	return &Node{value, nil, nil, nil}
 }
 
 func Min(node *Node) *Node {
