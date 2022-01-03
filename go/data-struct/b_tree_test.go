@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func CreateTree() (*Node) {
+func CreateTree() *Node {
 	root := NewNode(5)
 	n1 := NewNode(3)
 	n2 := NewNode(7)
