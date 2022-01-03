@@ -34,6 +34,29 @@ func Max(node *Node) *Node {
 	return node
 }
 
+func Insert(t *BTree, node *Node) {
+	x := t.root
+	var y *Node = nil
+
+	for x != nil {
+		y = x
+		if node.value < x.value {
+			x = x.left
+		} else {
+			x = x.right
+		}
+	}
+
+	node.parent = y
+	if y == nil {
+		t.root = node
+	} else if node.value < y.value {
+		y.left = node
+	} else {
+		y.right = node
+	}
+}
+
 func PrintPostOrder(tree *Node) (err error) {
 	if tree == nil {
 		return errors.New("Node is nil")
