@@ -10,11 +10,16 @@ func CreateTree() *Node {
 	n1 := NewNode(3)
 	n2 := NewNode(7)
 	root.left = n1
+	n1.parent = root
 	root.right = n2
+	n2.parent = root
 
 	n1.left = NewNode(1)
+	n1.left.parent = n1
 	n1.right = NewNode(4)
+	n1.right.parent = n1
 	n2.right = NewNode(8)
+	n2.right.parent = n2
 
 	return root
 }
@@ -74,5 +79,62 @@ func TestInsertRight(t *testing.T) {
 		PrintPostOrder(tree.root)
 		fmt.Print("\n")
 		t.Fatalf("Wrong position of newly inserted node:")
+	}
+}
+
+func TestDeleteLeft(t *testing.T) {
+	root := CreateTree()
+	tree := &BTree{root}
+	Delete(tree, tree.root.left)
+
+	if tree.root.left.value != 4 {
+		PrintPostOrder(tree.root)
+		fmt.Print("\n")
+		t.Fatalf("Wrong delete of node")
+	}
+
+	if tree.root.left.left.value != 1 {
+		t.Fatalf("Wrong left child")
+	}
+
+	if tree.root.left.right != nil {
+		t.Fatalf("Wrong right child")
+	}
+}
+
+func TestDeleteRight(t *testing.T) {
+	root := CreateTree()
+	tree := &BTree{root}
+	Delete(tree, tree.root.right)
+
+	if tree.root.right.value != 8 {
+		PrintPostOrder(tree.root)
+		fmt.Print("\n")
+		t.Fatalf("Wrong delete of node")
+	}
+
+	if tree.root.right.left != nil {
+		t.Fatalf("Wrong left child")
+	}
+
+	if tree.root.right.right != nil {
+		t.Fatalf("Wrong right child")
+	}
+
+}
+
+func TestDeleteLeaf(t *testing.T) {
+	root := CreateTree()
+	tree := &BTree{root}
+	Delete(tree, tree.root.left.right)
+
+	if tree.root.left.value != 3 {
+		PrintPostOrder(tree.root)
+		fmt.Print("\n")
+		t.Fatalf("Wrong parent value after delete")
+	}
+
+	if tree.root.left.right != nil {
+		t.Fatalf("Node not deleted")
 	}
 }

@@ -57,6 +57,40 @@ func Insert(t *BTree, node *Node) {
 	}
 }
 
+func Delete(t *BTree, node *Node) {
+	if node.left == nil {
+		switchSubtree(t, node, node.right)
+	} else if node.right == nil {
+		switchSubtree(t, node, node.left)
+	} else {
+		minRight := Min(node.right)
+		if minRight.parent != node {
+			switchSubtree(t, minRight, minRight.right)
+			minRight.right = node.right
+			minRight.right.parent = minRight
+		}
+		switchSubtree(t, node, minRight)
+		minRight.left = node.left
+		minRight.left.parent = minRight
+	}
+}
+
+// SwitchSubtree switches sub-tree with root node1 with sub-tree with root node2.
+// Setting up child poiters is responsibility of the called (if it's needed).
+func switchSubtree(t *BTree, node1 *Node, node2 *Node) {
+	if node1.parent == nil {
+		t.root = node2
+	} else if node1 == node1.parent.left {
+		node1.parent.left = node2
+	} else {
+		node1.parent.right = node2
+	}
+
+	if node2 != nil {
+		node2.parent = node1.parent
+	}
+}
+
 func PrintPostOrder(tree *Node) (err error) {
 	if tree == nil {
 		return errors.New("Node is nil")
