@@ -1,0 +1,5 @@
+= Data structures
+
+== Binary search tree
+
+* `go test binary_search_tree_test.go binary_search_tree.go` - run tests
