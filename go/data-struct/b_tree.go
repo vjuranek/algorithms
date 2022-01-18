@@ -65,19 +65,32 @@ func Delete(t *BTree, node *Node) {
 	} else {
 		minRight := Min(node.right)
 		if minRight.parent != node {
+			// efectively remove minRight from the tree, as
+			// it hasn't anything on the left and now is replaced
+			// with its right child
 			switchSubtree(t, minRight, minRight.right)
+			
+			// handle right child of node to be deleted
+			// minRight cannot have any left child, so no need
+			// to set left child
 			minRight.right = node.right
+			// fix parent after switching right child
 			minRight.right.parent = minRight
 		}
 		switchSubtree(t, node, minRight)
+		// we have to fix only left link, by now right child of node to
+		// be delete is minRight or the right link was already fixed in
+		// branch above
 		minRight.left = node.left
 		minRight.left.parent = minRight
 	}
 }
 
-// SwitchSubtree switches sub-tree with root node1 with sub-tree with root node2.
+// switchSubtree switches sub-tree with root node1 with sub-tree with root node2.
 // Setting up child poiters is responsibility of the called (if it's needed).
 func switchSubtree(t *BTree, node1 *Node, node2 *Node) {
+	
+	// replace node1 by node2 in the tree
 	if node1.parent == nil {
 		t.root = node2
 	} else if node1 == node1.parent.left {
@@ -86,6 +99,7 @@ func switchSubtree(t *BTree, node1 *Node, node2 *Node) {
 		node1.parent.right = node2
 	}
 
+	// fix node2 parent
 	if node2 != nil {
 		node2.parent = node1.parent
 	}
